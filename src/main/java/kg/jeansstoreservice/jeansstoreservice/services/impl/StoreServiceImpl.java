@@ -52,10 +52,12 @@ public class StoreServiceImpl implements StoreService {
         List<CartResponse> cartResponsesList = new ArrayList<>();
         if (!cartRequestList.isEmpty()) {
             for (CartRequest cartRequest : cartRequestList) {
-                CartResponse tempResponse = new CartResponse();
-                tempResponse.setCartRequest(cartRequest);
-                tempResponse.setTotalPrice(cartRequest.getQuantity() * getItemById(cartRequest.getItemId()).getPrice());
-                cartResponsesList.add(tempResponse);
+                if (getItemById(cartRequest.getItemId()).isAvailability()) {
+                    CartResponse tempResponse = new CartResponse();
+                    tempResponse.setCartRequest(cartRequest);
+                    tempResponse.setTotalPrice(cartRequest.getQuantity() * getItemById(cartRequest.getItemId()).getPrice());
+                    cartResponsesList.add(tempResponse);
+                }
             }
         }
         return cartResponsesList;
